@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jeremy Miracle — Film & Documentary Filmmaker</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --black: #0a0a0a;
+      --dark: #111111;
+      --card: #161616;
+      --border: #2a2a2a;
+      --white: #ffffff;
+      --muted: #888888;
+      --accent: #d4af7a;
+      --font-display: 'Playfair Display', serif;
+      --font-body: 'Cormorant Garamond', serif;
+      --font-ui: 'Raleway', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: 18px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 22px 60px;
+      background: rgba(10,10,10,0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.3s;
+    }
+    nav.scrolled { border-bottom-color: var(--border); }
+
+    .logo {
+      font-family: var(--font-ui);
+      font-weight: 600;
+      font-size: 18px;
+      letter-spacing: 0.12em;
+      color: var(--white);
+      text-decoration: none;
+    }
+    .logo span { color: var(--accent); }
+
+    .nav-links {
+      display: flex;
+      gap: 40px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: var(--font-ui);
+      font-size: 13px;
+      font-weight: 400;
+      letter-spacing: 0.05em;
+      color: rgba(255,255,255,0.75);
+      text-decoration: none;
+      transition: color 0.25s;
+    }
+    .nav-links a:hover { color: var(--white); }
+
+    /* ─── SECTIONS COMMON ─── */
+    section {
+      min-height: 100vh;
+      padding: 160px 60px 100px;
+    }
+
+    .section-label {
+      font-family: var(--font-ui);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      color: var(--muted);
+      margin-bottom: 28px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .section-label::after {
+      content: '';
+      display: inline-block;
+      width: 40px;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ─── HERO ─── */
+    #hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      min-height: 100vh;
+      padding: 0 60px;
+      position: relative;
+    }
+
+    .hero-subtitle {
+      font-family: var(--font-ui);
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.35em;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 32px;
+      opacity: 0;
+      animation: fadeUp 1s 0.3s forwards;
+    }
+
+    .hero-name {
+      font-family: var(--font-display);
+      font-size: clamp(64px, 8vw, 110px);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+      color: var(--white);
+      opacity: 0;
+      animation: fadeUp 1s 0.55s forwards;
+    }
+
+    .hero-quote {
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: 20px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.6);
+      margin-top: 36px;
+      opacity: 0;
+      animation: fadeUp 1s 0.8s forwards;
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 52px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      opacity: 0;
+      animation: fadeUp 1s 1.1s forwards;
+    }
+    .hero-scroll span {
+      font-family: var(--font-ui);
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      color: var(--muted);
+    }
+    .scroll-arrow {
+      width: 20px;
+      height: 20px;
+      border-right: 1px solid var(--muted);
+      border-bottom: 1px solid var(--muted);
+      transform: rotate(45deg);
+      animation: bounce 1.8s infinite;
+    }
+
+    .hero-line-left, .hero-line-right {
+      position: absolute;
+      top: 50%;
+      width: 1px;
+      height: 180px;
+      background: linear-gradient(to bottom, transparent, var(--border));
+      transform: translateY(-50%);
+    }
+    .hero-line-left { left: 60px; }
+    .hero-line-right { right: 60px; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes bounce {
+      0%, 100% { transform: rotate(45deg) translateY(0); }
+      50%       { transform: rotate(45deg) translateY(6px); }
+    }
+
+    /* ─── ABOUT ─── */
+    #about {
+      border-top: 1px solid var(--border);
+    }
+
+    .about-heading {
+      font-family: var(--font-display);
+      font-size: clamp(44px, 5vw, 72px);
+      font-weight: 700;
+      line-height: 1.12;
+      margin-bottom: 64px;
+      max-width: 540px;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px 80px;
+    }
+
+    .about-grid p {
+      font-size: 17px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.8);
+      line-height: 1.8;
+    }
+
+    /* ─── EDUCATION ─── */
+    #education {
+      border-top: 1px solid var(--border);
+    }
+
+    .edu-heading {
+      font-family: var(--font-display);
+      font-size: clamp(44px, 5vw, 72px);
+      font-weight: 700;
+      margin-bottom: 64px;
+    }
+
+    .edu-item {
+      display: grid;
+      grid-template-columns: 200px 1px 1fr;
+      gap: 0 40px;
+      margin-bottom: 52px;
+      align-items: start;
+    }
+
+    .edu-year {
+      font-family: var(--font-ui);
+      font-size: 13px;
+      color: var(--muted);
+      padding-top: 10px;
+      letter-spacing: 0.05em;
+    }
+
+    .edu-divider {
+      background: var(--border);
+      width: 1px;
+      height: 100%;
+      min-height: 80px;
+    }
+
+    .edu-content {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+    }
+
+    .edu-icon {
+      width: 44px;
+      height: 44px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 18px;
+    }
+
+    .edu-info h3 {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .edu-info .degree {
+      font-family: var(--font-ui);
+      font-size: 13px;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 4px;
+    }
+    .edu-info .focus {
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    /* ─── EXPERIENCE (Awards) ─── */
+    #experience {
+      border-top: 1px solid var(--border);
+    }
+
+    .exp-heading {
+      font-family: var(--font-display);
+      font-size: clamp(44px, 5vw, 72px);
+      font-weight: 700;
+      margin-bottom: 64px;
+    }
+
+    .exp-timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .exp-row {
+      display: grid;
+      grid-template-columns: 1fr 40px 1fr;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 32px;
+    }
+    .exp-row.right .exp-card { grid-column: 3; }
+    .exp-row.left  .exp-card { grid-column: 1; }
+
+    .exp-dot-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      grid-column: 2;
+    }
+    .exp-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--white);
+      flex-shrink: 0;
+    }
+    .exp-line {
+      width: 1px;
+      height: 60px;
+      background: var(--border);
+    }
+
+    .exp-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 32px;
+    }
+    .exp-card-label {
+      font-family: var(--font-ui);
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      color: var(--muted);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .exp-card-year {
+      font-family: var(--font-ui);
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+    .exp-card h3 {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      line-height: 1.3;
+    }
+    .exp-card p {
+      font-size: 14px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    /* ─── PORTFOLIO ─── */
+    #portfolio {
+      border-top: 1px solid var(--border);
+    }
+
+    .portfolio-heading {
+      font-family: var(--font-display);
+      font-size: clamp(44px, 5vw, 72px);
+      font-weight: 700;
+      margin-bottom: 64px;
+    }
+
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4px;
+    }
+
+    .portfolio-item {
+      position: relative;
+      aspect-ratio: 4/3;
+      overflow: hidden;
+      cursor: pointer;
+      background: var(--card);
+    }
+
+    .portfolio-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+      filter: brightness(0.75);
+    }
+
+    .portfolio-item:hover img {
+      transform: scale(1.06);
+      filter: brightness(0.55);
+    }
+
+    .play-btn {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.18);
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255,255,255,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.3s;
+    }
+    .portfolio-item:hover .play-btn {
+      background: rgba(255,255,255,0.28);
+    }
+
+    .play-icon {
+      width: 0;
+      height: 0;
+      border-top: 10px solid transparent;
+      border-bottom: 10px solid transparent;
+      border-left: 16px solid white;
+      margin-left: 4px;
+    }
+
+    /* ─── SKILLS ─── */
+    #skills {
+      border-top: 1px solid var(--border);
+    }
+
+    .skills-heading {
+      font-family: var(--font-display);
+      font-size: clamp(44px, 5vw, 72px);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 64px;
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0 80px;
+    }
+
+    .skill-item {
+      padding: 28px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .skill-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 18px;
+      margin-bottom: 12px;
+    }
+
+    .skill-icon {
+      width: 44px;
+      height: 44px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .skill-info { flex: 1; }
+    .skill-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+    .skill-name {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 700;
+    }
+    .skill-pct {
+      font-family: var(--font-ui);
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .skill-desc {
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .skill-bar-track {
+      height: 1px;
+      background: var(--border);
+      margin-top: 14px;
+      position: relative;
+      overflow: visible;
+    }
+    .skill-bar-fill {
+      height: 1px;
+      background: var(--white);
+      width: 0;
+      transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* ─── CONTACT ─── */
+    #contact {
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .contact-label {
+      font-family: var(--font-ui);
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      color: var(--muted);
+      margin-bottom: 28px;
+    }
+
+    .contact-heading {
+      font-family: var(--font-display);
+      font-size: clamp(52px, 6vw, 88px);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 28px;
+    }
+
+    .contact-sub {
+      font-size: 17px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.6);
+      max-width: 560px;
+      margin-bottom: 64px;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      width: 100%;
+      max-width: 900px;
+    }
+
+    .contact-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 28px 32px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      text-decoration: none;
+      transition: border-color 0.25s, background 0.25s;
+      cursor: pointer;
+    }
+    .contact-card:hover {
+      border-color: rgba(255,255,255,0.25);
+      background: #1c1c1c;
+    }
+
+    .contact-card-icon {
+      font-size: 22px;
+      color: var(--muted);
+      flex-shrink: 0;
+    }
+
+    .contact-card-info { flex: 1; text-align: left; }
+    .contact-card-info .label {
+      font-family: var(--font-ui);
+      font-size: 10px;
+      letter-spacing: 0.25em;
+      color: var(--muted);
+      display: block;
+      margin-bottom: 4px;
+    }
+    .contact-card-info .value {
+      font-family: var(--font-ui);
+      font-size: 15px;
+      color: var(--white);
+    }
+
+    .contact-card-arrow {
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 32px 60px;
+      border-top: 1px solid var(--border);
+      font-family: var(--font-ui);
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+
+    /* Scroll reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <a href="#hero" class="logo">RAKA<span>.</span></a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#portfolio">Portfolio</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-line-left"></div>
+    <div class="hero-line-right"></div>
+    <p class="hero-subtitle">FILM &amp; DOCUMENTARY FILMMAKER</p>
+    <h1 class="hero-name">Jeremy Miracle</h1>
+    <p class="hero-quote">"Every frame tells a story. Every story deserves to be heard."</p>
+    <div class="hero-scroll">
+      <span>SCROLL</span>
+      <div class="scroll-arrow"></div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <p class="section-label reveal">01 — ABOUT</p>
+    <h2 class="about-heading reveal">The Story Behind the Lens</h2>
+    <div class="about-grid reveal">
+      <div>
+        <p>Saya Jeremy Miracle, mahasiswa Film dan Dokumenter yang percaya bahwa setiap cerita memiliki kekuatan untuk mengubah perspektif dan menyentuh hati.</p>
+        <br/>
+        <p>Ketertarikan saya pada dunia visual dimulai sejak SMA, ketika saya pertama kali memegang kamera dan menyadari bahwa gambar bergerak bisa menjadi medium yang sangat powerful untuk bercerita. Sejak saat itu, saya terus mengasah kemampuan dalam cinematography, editing, dan storytelling.</p>
+      </div>
+      <div>
+        <p>Fokus utama saya adalah documentary filmmaking — mengangkat cerita-cerita nyata yang sering terlupakan, memberikan suara kepada mereka yang jarang didengar, dan mengeksplorasi keindahan dalam kesederhanaan kehidupan sehari-hari.</p>
+        <br/>
+        <p>Visi saya sebagai filmmaker adalah menciptakan karya visual yang tidak hanya indah secara estetika, tetapi juga bermakna dan mampu membangkitkan empati serta refleksi mendalam pada penontonnya.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education">
+    <p class="section-label reveal">02 — EDUCATION</p>
+    <h2 class="edu-heading reveal">Academic Journey</h2>
+
+    <div class="edu-item reveal">
+      <div class="edu-year">2022 — Sekarang</div>
+      <div class="edu-divider"></div>
+      <div class="edu-content">
+        <div class="edu-icon">🎓</div>
+        <div class="edu-info">
+          <h3>Atlantic Technological University</h3>
+          <p class="degree">Bachelor of Science in Film and Documentary</p>
+          <p class="focus">Fokus pada Documentary Filmmaking dan Cinematography</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="edu-item reveal">
+      <div class="edu-year">2019 — 2022</div>
+      <div class="edu-divider"></div>
+      <div class="edu-content">
+        <div class="edu-icon">🎓</div>
+        <div class="edu-info">
+          <h3>SMA Mardi Waluya </h3>
+          <p class="degree">Jurusan IPA</p>
+          <p class="focus">Aktif di Ekstrakurikuler Film dan Fotografi</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE / AWARDS -->
+  <section id="experience">
+    <p class="section-label reveal">03 — EXPERIENCE</p>
+    <h2 class="exp-heading reveal">Awards &amp; Achievements</h2>
+
+    <div style="position:relative; padding: 0 20px;">
+      <!-- Timeline center line -->
+      <div style="position:absolute; left:50%; top:0; bottom:0; width:1px; background:var(--border); transform:translateX(-50%);"></div>
+
+      <!-- Item 1 - Left -->
+      <div style="display:grid; grid-template-columns:1fr 40px 1fr; gap:20px; margin-bottom:48px; align-items:center;" class="reveal">
+        <div class="exp-card" style="text-align:center;">
+          <div class="exp-card-label">COMPETITION <span>🏆</span></div>
+          <div class="exp-card-year">2024</div>
+          <h3>Finalist — Festival Film </h3>
+          <p>Film dokumenter </p>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:0;">
+          <div style="width:12px;height:12px;border-radius:50%;background:white;"></div>
+        </div>
+        <div></div>
+      </div>
+
+      <!-- Item 2 - Right -->
+      <div style="display:grid; grid-template-columns:1fr 40px 1fr; gap:20px; margin-bottom:48px; align-items:center;" class="reveal">
+        <div></div>
+        <div style="display:flex;flex-direction:column;align-items:center;">
+          <div style="width:12px;height:12px;border-radius:50%;background:white;"></div>
+        </div>
+        <div class="exp-card" style="text-align:center;">
+          <div class="exp-card-label">PROJECT <span>🎬</span></div>
+          <div class="exp-card-year">2024</div>
+          <h3>Director of Photography </h3>
+          <p>Film pendek </p>
+        </div>
+      </div>
+
+      <!-- Item 3 - Left -->
+      <div style="display:grid; grid-template-columns:1fr 40px 1fr; gap:20px; margin-bottom:48px; align-items:center;" class="reveal">
+        <div class="exp-card" style="text-align:center;">
+          <div class="exp-card-label">WORKSHOP <span>🎥</span></div>
+          <div class="exp-card-year">2023</div>
+          <h3>Peserta </h3>
+          <p>Workshop sinematografi</p>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;">
+          <div style="width:12px;height:12px;border-radius:50%;background:white;"></div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PORTFOLIO -->
+  <section id="portfolio">
+    <p class="section-label reveal">04 — PORTFOLIO</p>
+    <h2 class="portfolio-heading reveal">Selected Works</h2>
+    <div class="portfolio-grid reveal">
+      <div class="portfolio-item">
+        <img src="https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=600&q=80" alt="Film 1" />
+        <div class="play-btn"><div class="play-icon"></div></div>
+      </div>
+      <div class="portfolio-item">
+        <img src="https://images.unsplash.com/photo-1541278107931-e006523892df?w=600&q=80" alt="Film 2" />
+        <div class="play-btn"><div class="play-icon"></div></div>
+      </div>
+      <div class="portfolio-item">
+        <img src="https://images.unsplash.com/photo-1605296867304-46d5465a13f1?w=600&q=80" alt="Film 3" />
+        <div class="play-btn"><div class="play-icon"></div></div>
+      </div>
+      <div class="portfolio-item">
+        <img src="https://images.unsplash.com/photo-1574267432553-4b4628081c31?w=600&q=80" alt="Film 4" />
+        <div class="play-btn"><div class="play-icon"></div></div>
+      </div>
+      <div class="portfolio-item">
+        <img src="https://images.unsplash.com/photo-1596464716127-f2a82984de30?w=600&q=80" alt="Film 5" />
+        <div class="play-btn"><div class="play-icon"></div></div>
+      </div>
+      <div class="portfolio-item">
+        <img src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=600&q=80" alt="Film 6" />
+        <div class="play-btn"><div class="play-icon"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <p class="section-label reveal">05 — SKILLS</p>
+    <h2 class="skills-heading reveal">Tools of<br/>the Craft</h2>
+    <div class="skills-grid">
+      <div class="skill-item reveal" data-pct="90">
+        <div class="skill-header">
+          <div class="skill-icon">📷</div>
+          <div class="skill-info">
+            <div class="skill-top">
+              <span class="skill-name">Cinematography</span>
+              <span class="skill-pct">90%</span>
+            </div>
+            <p class="skill-desc">Komposisi visual, pencahayaan, dan pergerakan kamera</p>
+          </div>
+        </div>
+        <div class="skill-bar-track"><div class="skill-bar-fill"></div></div>
+      </div>
+
+      <div class="skill-item reveal" data-pct="95">
+        <div class="skill-header">
+          <div class="skill-icon">🎞️</div>
+          <div class="skill-info">
+            <div class="skill-top">
+              <span class="skill-name">Video Editing</span>
+              <span class="skill-pct">95%</span>
+            </div>
+            <p class="skill-desc">Adobe Premiere Pro, DaVinci Resolve, Final Cut Pro</p>
+          </div>
+        </div>
+        <div class="skill-bar-track"><div class="skill-bar-fill"></div></div>
+      </div>
+
+      <div class="skill-item reveal" data-pct="88">
+        <div class="skill-header">
+          <div class="skill-icon">✍️</div>
+          <div class="skill-info">
+            <div class="skill-top">
+              <span class="skill-name">Storytelling</span>
+              <span class="skill-pct">88%</span>
+            </div>
+            <p class="skill-desc">Narrative structure, scriptwriting, visual storytelling</p>
+          </div>
+        </div>
+        <div class="skill-bar-track"><div class="skill-bar-fill"></div></div>
+      </div>
+
+      <div class="skill-item reveal" data-pct="85">
+        <div class="skill-header">
+          <div class="skill-icon">🔍</div>
+          <div class="skill-info">
+            <div class="skill-top">
+              <span class="skill-name">Documentary Research</span>
+              <span class="skill-pct">85%</span>
+            </div>
+            <p class="skill-desc">Riset mendalam, wawancara, dan jurnalisme visual</p>
+          </div>
+        </div>
+        <div class="skill-bar-track"><div class="skill-bar-fill"></div></div>
+      </div>
+
+      <div class="skill-item reveal" data-pct="80">
+        <div class="skill-header">
+          <div class="skill-icon">🎬</div>
+          <div class="skill-info">
+            <div class="skill-top">
+              <span class="skill-name">Directing</span>
+              <span class="skill-pct">80%</span>
+            </div>
+            <p class="skill-desc">Pengarahan talent, blocking, dan visual planning</p>
+          </div>
+        </div>
+        <div class="skill-bar-track"><div class="skill-bar-fill"></div></div>
+      </div>
+
+      <div class="skill-item reveal" data-pct="82">
+        <div class="skill-header">
+          <div class="skill-icon">🎨</div>
+          <div class="skill-info">
+            <div class="skill-top">
+              <span class="skill-name">Color Grading</span>
+              <span class="skill-pct">82%</span>
+            </div>
+            <p class="skill-desc">Color correction dan mood enhancement</p>
+          </div>
+        </div>
+        <div class="skill-bar-track"><div class="skill-bar-fill"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <p class="contact-label reveal">06 — CONTACT</p>
+    <h2 class="contact-heading reveal">Let's Create<br/>Together</h2>
+    <p class="contact-sub reveal">Tertarik untuk berkolaborasi atau ingin mendiskusikan proyek? Saya selalu terbuka untuk ide-ide baru dan kesempatan menarik.</p>
+
+    <div class="contact-grid reveal">
+      <a class="contact-card" href="mailto:raka.mahendra@email.com">
+        <div class="contact-card-icon">✉️</div>
+        <div class="contact-card-info">
+          <span class="label">EMAIL</span>
+          <span class="value">jeremy.miracle@email.com</span>
+        </div>
+        <div class="contact-card-arrow">↗</div>
+      </a>
+      <a class="contact-card" href="https://wa.me/6281234567890" target="_blank">
+        <div class="contact-card-icon">📞</div>
+        <div class="contact-card-info">
+          <span class="label">WHATSAPP</span>
+          <span class="value">+62 812 3456 7890</span>
+        </div>
+        <div class="contact-card-arrow">↗</div>
+      </a>
+      <a class="contact-card" href="https://instagram.com/raka.films" target="_blank">
+        <div class="contact-card-icon">📸</div>
+        <div class="contact-card-info">
+          <span class="label">INSTAGRAM</span>
+          <span class="value">@jj.miracle</span>
+        </div>
+        <div class="contact-card-arrow">↗</div>
+      </a>
+      <a class="contact-card" href="https://linkedin.com" target="_blank">
+        <div class="contact-card-icon">💼</div>
+        <div class="contact-card-info">
+          <span class="label">LINKEDIN</span>
+          <span class="value">Jeremy Miracle</span>
+        </div>
+        <div class="contact-card-arrow">↗</div>
+      </a>
+    </div>
+  </section>
+
+  <footer>© 2026 Jeremy Miracle. All rights reserved.</footer>
+
+  <script>
+    // Navbar scroll effect
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            entry.target.classList.add('visible');
+            // Animate skill bars
+            const bar = entry.target.querySelector('.skill-bar-fill');
+            if (bar) {
+              const pct = entry.target.dataset.pct;
+              setTimeout(() => { bar.style.width = pct + '%'; }, 100);
+            }
+          }, 80);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    reveals.forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
